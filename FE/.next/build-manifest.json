@@ -34,11 +34,6 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/next/dist/pages/_error.js"
     ],
-    "/profile": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/profile.js"
-    ],
     "/signUp": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
