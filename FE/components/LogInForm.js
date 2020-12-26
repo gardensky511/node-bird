@@ -17,10 +17,11 @@ const LogInForm = ({ setIsLoggedIn }) => {
 
   const onSubmitForm = () => {
     console.log(id, password);
+    setIsLoggedIn(true);
   };
 
   return (
-    <Form onFinish={onSubmitForm}>
+    <StyledForm onFinish={onSubmitForm}>
       <div>
         <label htmlFor="user-id">아이디</label>
         <br />
@@ -42,15 +43,21 @@ const LogInForm = ({ setIsLoggedIn }) => {
           로그인
         </Button>
         <Link href="/signUp">
-          <a>회원가입</a>
+          <Button>
+            <a>회원가입</a>
+          </Button>
         </Link>
       </ButtonWrapper>
-    </Form>
+    </StyledForm>
   );
 };
 
 const ButtonWrapper = styled.div`
   margin-top: 10px;
+`;
+
+const StyledForm = styled(Form)`
+  padding: 10px;
 `;
 
 export default LogInForm;

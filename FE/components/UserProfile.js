@@ -1,10 +1,29 @@
 import React from "react";
-import { Card } from "antd";
+import { Card, Avatar, Button } from "antd";
 
-const UserProfile = () => {
+const UserProfile = ({ setIsLoggedIn }) => {
+  const onLogout = () => {
+    setIsLoggedIn(false);
+  };
   return (
-    <Card>
-      <Card.Meta avatar={} />
+    <Card
+      actions={[
+        <div key="twit">
+          짹짹
+          <br />0
+        </div>,
+        <div key="followings">
+          팔로잉
+          <br />0
+        </div>,
+        <div key="followers">
+          팔로워
+          <br />0
+        </div>,
+      ]}
+    >
+      <Card.Meta avatar={<Avatar>JM</Avatar>} title="Jeongmin" />
+      <Button onClick={onLogout}>로그아웃</Button>
     </Card>
   );
 };
