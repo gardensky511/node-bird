@@ -2,15 +2,19 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Form, Input, Button } from "antd";
 import styled from "styled-components";
-import useInput from "../hooks/useInput";
+import { useDispatch } from "react-redux";
 
-const LogInForm = ({ setIsLoggedIn }) => {
+import useInput from "../hooks/useInput";
+import { loginAction } from "../reducers";
+
+const LogInForm = () => {
+  const dispatch = useDispatch();
   const [id, onChangeId] = useInput("");
   const [password, onChangePassword] = useInput("");
 
   const onSubmitForm = () => {
     console.log(id, password);
-    setIsLoggedIn(true);
+    dispatch(loginAction({ id, password }));
   };
 
   return (
