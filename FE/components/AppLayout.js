@@ -9,7 +9,7 @@ import LogInForm from "./LogInForm";
 
 const AppLayout = ({ children }) => {
   // useSelector는 리덕스 상태값을 조회하기 위한 함수
-  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
 
   return (
     <div>

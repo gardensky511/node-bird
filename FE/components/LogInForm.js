@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 
 import useInput from "../hooks/useInput";
-import { loginAction } from "../reducers";
+import { loginAction } from "../reducers/user";
 
 const LogInForm = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,6 @@ const LogInForm = () => {
   const [password, onChangePassword] = useInput("");
 
   const onSubmitForm = () => {
-    console.log(id, password);
     dispatch(loginAction({ id, password }));
   };
 
