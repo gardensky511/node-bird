@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import PropTypes from "prop-types"
 import { Menu, Input, Row, Col } from "antd";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
@@ -9,7 +10,7 @@ import LogInForm from "./LogInForm";
 
 const AppLayout = ({ children }) => {
   // useSelector는 리덕스 상태값을 조회하기 위한 함수
-  const isLoggedIn = useSelector((state) => state.user?.isLoggedIn);
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   return (
     <div>
@@ -53,6 +54,10 @@ const AppLayout = ({ children }) => {
     </div>
   );
 };
+
+AppLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+}
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;
