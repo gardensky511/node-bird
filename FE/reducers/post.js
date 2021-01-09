@@ -10,7 +10,11 @@ export const initialState = {
       Images: [
         {
           src:
-            "https://www.google.com/url?sa=i&url=https%3A%2F%2Fnews.samsungdisplay.com%2F15580&psig=AOvVaw3zGsN3xpfU1qgDcwplXdeM&ust=1609910235881000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCNDh1JCFhO4CFQAAAAAdAAAAABAD",
+            "https://pds.joins.com/news/component/htmlphoto_mmdata/201403/28/htm_2014032804056a010a011.jpg",
+        },
+        {
+          src:
+            "https://image-cdn.hypb.st/https%3A%2F%2Fkr.hypebeast.com%2Ffiles%2F2018%2F04%2Fphoto-editor-app-recommendation-01.jpg?q=75&w=800&cbr=1&fit=max",
         },
         {
           src:
