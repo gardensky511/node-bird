@@ -6,7 +6,7 @@ export const initialState = {
         id: 1,
         nickname: "정민",
       },
-      content: "일찍 출근해서 너무나 졸리다",
+      content: "일찍 출근해서 너무나 졸리다 #react #연습중",
       Images: [
         {
           src:
