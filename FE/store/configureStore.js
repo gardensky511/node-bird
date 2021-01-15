@@ -4,7 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension"; // 브라우저�
 import createSagaMiddleware from "redux-saga";
 
 import reducer from "../reducers";
-import rootSaga from "../sagas";
+import rootSaga from "../sgags";
 
 const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
   console.log(action);
