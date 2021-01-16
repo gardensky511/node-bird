@@ -11,27 +11,34 @@ export const initialState = {
       content: '일찍 출근해서 너무나 졸리다 #react #연습중',
       Images: [
         {
+          id: shortId.generate(),
           src:
             'https://pds.joins.com/news/component/htmlphoto_mmdata/201403/28/htm_2014032804056a010a011.jpg',
         },
         {
+          id: shortId.generate(),
           src:
             'https://image-cdn.hypb.st/https%3A%2F%2Fkr.hypebeast.com%2Ffiles%2F2018%2F04%2Fphoto-editor-app-recommendation-01.jpg?q=75&w=800&cbr=1&fit=max',
         },
         {
+          id: shortId.generate(),
           src:
             'https://www.bloter.net/wp-content/uploads/2016/08/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0-%EC%82%AC%EC%A7%84.jpg',
         },
       ],
       Comments: [
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: 'banana',
           },
           content: '빠른퇴근',
         },
         {
+          id: shortId.generate(),
           User: {
+            id: shortId.generate(),
             nickname: 'mango',
           },
           content: '덕질하고싶다',
@@ -67,8 +74,8 @@ export const addComment = (data) => ({
 });
 
 const dummyPost = (data) => ({
-  id: shortId.generate(),
-  content: data,
+  id: data.id,
+  content: data.content,
   User: {
     id: 1,
     nickname: 'melon',
