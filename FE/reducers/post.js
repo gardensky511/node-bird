@@ -1,3 +1,5 @@
+import shortId from 'shortid';
+
 export const initialState = {
   mainPosts: [
     {
@@ -21,7 +23,6 @@ export const initialState = {
             'https://www.bloter.net/wp-content/uploads/2016/08/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0-%EC%82%AC%EC%A7%84.jpg',
         },
       ],
-
       Comments: [
         {
           User: {
@@ -65,16 +66,25 @@ export const addComment = (data) => ({
   data,
 });
 
-const dummyPost = {
-  id: 2,
-  content: '더미데이터입니다',
+const dummyPost = (data) => ({
+  id: shortId.generate(),
+  content: data,
   User: {
     id: 1,
     nickname: 'melon',
   },
   Images: [],
   Comments: [],
-};
+});
+
+const dummyComment = (data) => ({
+  id: shortId.generate(),
+  content: data,
+  User: {
+    id: 1,
+    nickname: 'melon',
+  },
+});
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -88,7 +98,7 @@ const reducer = (state = initialState, action) => {
     case ADD_POST_SUCCESS:
       return {
         ...state,
-        mainPosts: [dummyPost, ...state.mainPosts],
+        mainPosts: [dummyPost(action.data), ...state.mainPosts],
         addPostLoading: false,
         addPostDone: true,
       };
@@ -101,21 +111,38 @@ const reducer = (state = initialState, action) => {
     case ADD_COMMENT_REQUEST:
       return {
         ...state,
-        isCommentAdding: true,
-        isCommentAdded: false,
-        commentAddingError: null,
+        addCommentLoading: true,
+        addCommentDone: false,
+        addCommentError: null,
       };
-    case ADD_COMMENT_SUCCESS:
+    case ADD_COMMENT_SUCCESS: {
+      console.log('ADD_COMMENT_SUCCESS');
+      // 전체 포스트 중에 코멘트를 단 포스트를 찾아서 인덱스 뽑아냄
+      const postIndex = state.mainPosts.findIndex((post) => post.id === action.data.postId);
+      console.log(postIndex);
+      // 뽑아낸 인덱스로 코멘트 단 인덱스 특정
+      const post = { ...state.mainPosts[postIndex] };
+      console.log(post);
+      // 새로 추가된 코멘트를 넣어서 post의 코멘트 배열 재정의
+      post.Comments = [dummyComment(action.data.content), ...post.Comments];
+      // mainPosts도 새 객체로 만들어줌
+      const mainPosts = [...state.mainPosts];
+      console.log(mainPosts);
+      // 코멘트 단 포스트의 코멘트를 업데이트
+      mainPosts[postIndex] = post;
+      console.log(mainPosts);
       return {
         ...state,
-        isCommentAdding: false,
-        isCommentAdded: true,
+        mainPosts,
+        addCommentLoading: false,
+        addCommentDone: true,
       };
+    }
     case ADD_COMMENT_FAILURE:
       return {
         ...state,
-        isCommentAdding: false,
-        commentAddingError: action.error,
+        addCommentLoading: false,
+        addCommentError: action.error,
       };
     default:
       return state;

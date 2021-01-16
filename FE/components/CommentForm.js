@@ -5,20 +5,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { ADD_COMMENT_REQUEST } from '../reducers/post';
 
-const CommentForm = () => {
+const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.user?.me);
-  const { isCommentAdded } = useSelector((state) => state.post);
+  const { addCommentDone, addCommentLoading } = useSelector((state) => state.post);
+  const { id } = useSelector((state) => state.user?.me);
+  console.log(id);
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
   useEffect(() => {
-    if (isCommentAdded) setCommentText('');
-  }, [isCommentAdded]);
+    if (addCommentDone) setCommentText('');
+  }, [addCommentDone]);
 
   const onSubmitComment = () => {
     dispatch({
       type: ADD_COMMENT_REQUEST,
-      data: { content: commentText, userId: id, postId: id },
+      data: { content: commentText, userId: id, postId: post.id },
     });
   };
 
@@ -31,9 +32,10 @@ const CommentForm = () => {
           rows={4}
         />
         <Button
-          style={{ position: 'absolute', right: 0, bottom: -40 }}
+          style={{ position: 'absolute', right: 0, bottom: -40, zIndex: 1 }}
           type="primary"
           htmlType="submit"
+          loading={addCommentLoading}
         >
           삐약
         </Button>
@@ -42,7 +44,7 @@ const CommentForm = () => {
   );
 };
 
-CommentForm.propTtypes = {
+CommentForm.propTypes = {
   post: PropTypes.object.isRequired,
 };
 
