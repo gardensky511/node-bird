@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { PlusOutlined } from "@ant-design/icons";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { PlusOutlined } from '@ant-design/icons';
 
-import ImagesZoom from "./ImagesZoom";
+import ImagesZoom from './ImagesZoom';
 
 const PostImages = ({ images }) => {
   const [showImagesZoom, setShowImagesZoom] = useState(false);
@@ -26,14 +26,14 @@ const PostImages = ({ images }) => {
     return (
       <>
         <img
-          style={{ width: "50%", display: "inline-block" }}
+          style={{ width: '50%', display: 'inline-block' }}
           role="presentation"
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
         />
         <img
-          style={{ width: "50%", display: "inline-block" }}
+          style={{ width: '50%', display: 'inline-block' }}
           role="presentation"
           src={images[1].src}
           alt={images[1].src}
@@ -47,19 +47,19 @@ const PostImages = ({ images }) => {
     <>
       <div>
         <img
-          style={{ width: "50%" }}
+          style={{ width: '50%' }}
           role="presentation"
           src={images[0].src}
           alt={images[0].src}
           onClick={onZoom}
         />
         <div
-          role="presentaion"
+          role="presentation"
           style={{
-            display: "inline-block",
-            width: "50%",
-            textAlign: "center",
-            verticalAlign: "middle",
+            display: 'inline-block',
+            width: '50%',
+            textAlign: 'center',
+            verticalAlign: 'middle',
           }}
           onClick={onZoom}
         >

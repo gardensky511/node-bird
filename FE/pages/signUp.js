@@ -1,24 +1,29 @@
-import React, { useState } from "react";
-import AppLayout from "../components/AppLayout";
-import Head from "next/head";
-import { Form, Input, Checkbox, Button } from "antd";
-import useInput from "../hooks/useInput";
-import styled from "styled-components";
+import React, { useState } from 'react';
+import Head from 'next/head';
+import { Form, Input, Checkbox, Button } from 'antd';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import useInput from '../hooks/useInput';
+import { SIGN_UP_REQUEST } from '../reducers/user';
+import AppLayout from '../components/AppLayout';
 
 const SignUp = () => {
-  const [id, onChangeId] = useInput("");
-  const [nickname, onChangeNickname] = useInput("");
-  const [password, onChangePassword] = useInput("");
+  const dispatch = useDispatch();
+  const { signUpLoading } = useSelector((state) => state.user);
+
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [password, onChangePassword] = useInput('');
 
   const [passwordError, setPasswordError] = useState(false);
-  const [passwordCheck, setPasswordCheck] = useState("");
+  const [passwordCheck, setPasswordCheck] = useState('');
   const onChangePasswordCheck = (event) => {
     setPasswordCheck(event.target.value);
     setPasswordError(event.target.value !== password);
   };
 
   const [termError, setTermError] = useState(false);
-  const [term, setTerm] = useState("");
+  const [term, setTerm] = useState('');
   const onChangeTerm = (event) => {
     setTerm(event.target.checked);
     setTermError(false);
@@ -27,7 +32,11 @@ const SignUp = () => {
   const onSubmit = () => {
     if (password !== passwordCheck) setPasswordError(true);
     if (!term) setTermError(true);
-    console.log(id, nickname, password);
+    console.log(email, nickname, password);
+    dispatch({
+      type: SIGN_UP_REQUEST,
+      data: { email, password, nickname },
+    });
   };
 
   return (
@@ -37,12 +46,18 @@ const SignUp = () => {
       </Head>
       <Form onFinish={onSubmit}>
         <div>
-          <label htmlFor="user-id">아이디</label>
+          <label htmlFor="user-email">이메일</label>
           <br />
-          <Input name="user-id" value={id} onChange={onChangeId} required />
+          <Input
+            name="user-email"
+            type="email"
+            value={email}
+            onChange={onChangeEmail}
+            required
+          />
         </div>
         <div>
-          <label htmlFor="user-id">닉네임</label>
+          <label htmlFor="user-nick">닉네임</label>
           <br />
           <Input
             name="user-nickname"
@@ -82,7 +97,7 @@ const SignUp = () => {
           </Checkbox>
         </div>
         <SubmitButton>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={signUpLoading}>
             가입하기
           </Button>
         </SubmitButton>

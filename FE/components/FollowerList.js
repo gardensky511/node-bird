@@ -1,7 +1,7 @@
-import React from "react";
-import { List, Button, Card } from "antd";
-import { StopOutlined } from "@ant-design/icons";
-import styled from "styled-components";
+import React from 'react';
+import { List, Button, Card } from 'antd';
+import { StopOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
 
 const Header = (header) => <div>{header}</div>;
 
@@ -19,20 +19,18 @@ const RenderItem = (item) => (
   </List.Item>
 );
 
-const FollowerList = ({ header, data }) => {
-  return (
-    <List
-      style={{ marginBottom: 20 }}
-      grid={{ gutter: 4, xs: 2, md: 3 }}
-      size="small"
-      header={Header(header)}
-      loadMore={LoadMore()}
-      bordered
-      dataSource={data}
-      renderItem={(item) => RenderItem(item)}
-    />
-  );
-};
+const FollowerList = ({ header, data }) => (
+  <List
+    style={{ marginBottom: 20 }}
+    grid={{ gutter: 4, xs: 2, md: 3 }}
+    size="small"
+    header={Header(header)}
+    loadMore={LoadMore()}
+    bordered
+    dataSource={data}
+    renderItem={(item) => RenderItem(item)}
+  />
+);
 
 const LoadMoreWrapper = styled.div`
   text-align: center;

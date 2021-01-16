@@ -4,53 +4,56 @@ export const initialState = {
       id: 1,
       User: {
         id: 1,
-        nickname: "정민",
+        nickname: '정민',
       },
-      content: "일찍 출근해서 너무나 졸리다 #react #연습중",
+      content: '일찍 출근해서 너무나 졸리다 #react #연습중',
       Images: [
         {
           src:
-            "https://pds.joins.com/news/component/htmlphoto_mmdata/201403/28/htm_2014032804056a010a011.jpg",
+            'https://pds.joins.com/news/component/htmlphoto_mmdata/201403/28/htm_2014032804056a010a011.jpg',
         },
         {
           src:
-            "https://image-cdn.hypb.st/https%3A%2F%2Fkr.hypebeast.com%2Ffiles%2F2018%2F04%2Fphoto-editor-app-recommendation-01.jpg?q=75&w=800&cbr=1&fit=max",
+            'https://image-cdn.hypb.st/https%3A%2F%2Fkr.hypebeast.com%2Ffiles%2F2018%2F04%2Fphoto-editor-app-recommendation-01.jpg?q=75&w=800&cbr=1&fit=max',
         },
         {
           src:
-            "https://www.bloter.net/wp-content/uploads/2016/08/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0-%EC%82%AC%EC%A7%84.jpg",
+            'https://www.bloter.net/wp-content/uploads/2016/08/%EC%8A%A4%EB%A7%88%ED%8A%B8%ED%8F%B0-%EC%82%AC%EC%A7%84.jpg',
         },
       ],
 
       Comments: [
         {
           User: {
-            nickname: "banana",
+            nickname: 'banana',
           },
-          content: "빠른퇴근",
+          content: '빠른퇴근',
         },
         {
           User: {
-            nickname: "mango",
+            nickname: 'mango',
           },
-          content: "덕질하고싶다",
+          content: '덕질하고싶다',
         },
       ],
     },
   ],
   imagePaths: [],
-  isPostAdding: false,
-  isPostAdded: false,
-  postAddingError: null,
+  addPostLoading: false,
+  addPostDone: false,
+  addPostError: null,
+  addCommentLoading: false,
+  addCommentDone: false,
+  addCommentError: null,
 };
 
-export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
-export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
-export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE';
 
-export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
-export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
-export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
+export const ADD_COMMENT_REQUEST = 'ADD_COMMENT_REQUEST';
+export const ADD_COMMENT_SUCCESS = 'ADD_COMMENT_SUCCESS';
+export const ADD_COMMENT_FAILURE = 'ADD_COMMENT_FAILURE';
 
 export const addPost = (data) => ({
   type: ADD_POST_REQUEST,
@@ -64,10 +67,10 @@ export const addComment = (data) => ({
 
 const dummyPost = {
   id: 2,
-  content: "더미데이터입니다",
+  content: '더미데이터입니다',
   User: {
     id: 1,
-    nickname: "melon",
+    nickname: 'melon',
   },
   Images: [],
   Comments: [],
@@ -78,22 +81,22 @@ const reducer = (state = initialState, action) => {
     case ADD_POST_REQUEST:
       return {
         ...state,
-        isPostAdding: true,
-        isPostAdded: false,
-        postAddingError: null,
+        addPostLoading: true,
+        addPostDone: false,
+        addPostError: null,
       };
     case ADD_POST_SUCCESS:
       return {
         ...state,
         mainPosts: [dummyPost, ...state.mainPosts],
-        isPostAdding: false,
-        isPostAdded: true,
+        addPostLoading: false,
+        addPostDone: true,
       };
     case ADD_POST_FAILURE:
       return {
         ...state,
-        isPostAdding: false,
-        postAddingError: action.error,
+        addPostLoading: false,
+        addPostError: action.error,
       };
     case ADD_COMMENT_REQUEST:
       return {
