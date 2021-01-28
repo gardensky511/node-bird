@@ -1,6 +1,12 @@
 import produce from 'immer';
 
 export const initialState = {
+  followLoading: false, // 팔로우 시도중
+  followDone: false,
+  followError: null,
+  unfollowLoading: false, // 언팔로우 시도중
+  unfollowDone: false,
+  unfollowError: null,
   logInLoading: false, // 로그인 시도중
   logInDone: false,
   logInError: null,
@@ -20,7 +26,7 @@ export const initialState = {
 
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
-export const LOG_IN_FAILURE = 'LOG_IN_REQUEST';
+export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
@@ -65,12 +71,41 @@ export const logoutRequestAction = () => ({
 
 const reducer = (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
+    case FOLLOW_REQUEST:
+      draft.followLoading = true;
+      draft.followDone = false;
+      draft.followError = null;
+      break;
+    case FOLLOW_SUCCESS:
+      draft.followLoading = false;
+      draft.followDone = true;
+      draft.me.Followings.push({ id: action.data });
+      break;
+    case FOLLOW_FAILURE:
+      draft.followLoading = false;
+      draft.followError = action.error;
+      break;
+    case UNFOLLOW_REQUEST:
+      draft.unfollowLoading = true;
+      draft.unfollowDone = false;
+      draft.unfollowError = null;
+      break;
+    case UNFOLLOW_SUCCESS:
+      draft.unfollowLoading = false;
+      draft.unfollowDone = true;
+      draft.me.Followings = draft.me.Followings.filter((Following) => Following.id !== action.data);
+      break;
+    case UNFOLLOW_FAILURE:
+      draft.unfollowLoading = false;
+      draft.unfollowError = action.error;
+      break;
     case LOG_IN_REQUEST:
       draft.logInLoading = true;
       draft.logInDone = false;
       draft.logInError = null;
       break;
     case LOG_IN_SUCCESS:
+      console.log('success');
       draft.logInLoading = false;
       draft.logInDone = true;
       draft.me = dummyUser(action.data);

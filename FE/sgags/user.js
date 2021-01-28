@@ -10,7 +10,53 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  FOLLOW_SUCCESS,
+  FOLLOW_FAILURE,
+  UNFOLLOW_SUCCESS,
+  UNFOLLOW_FAILURE, FOLLOW_REQUEST, UNFOLLOW_REQUEST,
 } from '../reducers/user';
+
+function followAPI() {
+  return axios.post('/api/follow');
+}
+
+function* follow(action) {
+  try {
+    // const result = yield call(followAPI);
+    yield delay(1000);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: FOLLOW_SUCCESS,
+      data: action.data,
+    });
+  } catch (error) {
+    yield put({
+      type: FOLLOW_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
+function unfollowAPI() {
+  return axios.post('/api/unfollow');
+}
+
+function* unfollow(action) {
+  try {
+    // const result = yield call(logInAPI);
+    yield delay(1000);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: UNFOLLOW_SUCCESS,
+      data: action.data,
+    });
+  } catch (error) {
+    yield put({
+      type: UNFOLLOW_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
 
 function logInAPI() {
   return axios.post('/api/login');
@@ -76,6 +122,14 @@ function* signUp() {
 // takeLatest : 동시에 2개가 실행되면 마지막 거만 실행시켜줌.
 // takeLatest는 이미 완료된 건 그냥 놔두고 안완료된 것 중에서 마지막 걸 실행(응답을 취소하는거지 요청을 취소하는게 아님. 그래서 서버쪽에서도 검사해줘야됨)
 // throttle을 쓰면 아예 정해진 시간 동안 요청 수까지 제한할 수 있음
+function* watchFollow() {
+  yield takeLatest(FOLLOW_REQUEST, follow);
+}
+
+function* watchUnfollow() {
+  yield takeLatest(UNFOLLOW_REQUEST, unfollow);
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, logIn);
 }
@@ -89,7 +143,13 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogOut), fork(watchSignUp)]);
+  yield all([
+    fork(watchFollow),
+    fork(watchUnfollow),
+    fork(watchLogin),
+    fork(watchLogOut),
+    fork(watchSignUp),
+  ]);
 }
 // fork나 call로 제너레이터 함수를 실행하고, all은 그런 애들을 동시에 하게 해줌
 // call도 함수를 실행할 수 있는데 fork랑은 다름
