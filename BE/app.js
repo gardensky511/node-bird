@@ -23,7 +23,7 @@ app.get('/posts', (req, res) => {
 app.use('/post', postRouter)
 
 app.listen(3065, () => {
-    console.log('서버 실행중')
+    console.log('서버 실행중!!!!')
 })
 
 // app.get : 가져오다
