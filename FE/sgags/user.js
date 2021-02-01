@@ -113,7 +113,7 @@ function* signUp(action) {
   } catch (error) {
     yield put({
       type: SIGN_UP_FAILURE,
-      error: error.response.data,
+      error: error.response.data, // res.status(403).send('이미 사용중인 아이디입니다')
     });
   }
 }
