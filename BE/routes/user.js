@@ -1,8 +1,29 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
+const passport = require('passport')
 const { User } = require('../models')
 
 const router = express.Router()
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (error, user, info) => {
+        if(error) {
+            console.error(error)
+            return next(error)
+        }
+        if (info) {
+            return res.status(401).send(info.reason)
+        }
+        return  req.login(user, async (loginError) => {
+            // passport의 로그인 에러나는 경우
+            if (loginError) {
+                console.error(loginError)
+                return next(loginError)
+            }
+            return res.json(user)
+        })
+    })(req, res, next)
+})
 
 router.post('/', async (req, res, next) => {
     try {
