@@ -59,18 +59,16 @@ function* unfollow(action) {
 }
 
 function logInAPI() {
-  return axios.post('/api/login');
+  return axios.post('/user/login');
 }
 
 function* logIn(action) {
   try {
-    // const result = yield call(logInAPI);
-    console.log('saga login');
-    yield delay(1000);
+    const result = yield call(logInAPI, action.data);
     // put은 dispatch랑 같은 느낌
     yield put({
       type: LOG_IN_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -100,7 +98,7 @@ function* logOut() {
 }
 
 function signUpAPI(data) {
-  return axios.post('http://localhost:3065/user', data);
+  return axios.post('/user', data);
 }
 
 function* signUp(action) {
