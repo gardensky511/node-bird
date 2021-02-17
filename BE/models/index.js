@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config.json')[env]
+const config = require('../config/config.js')[env]
 const db = {}
 
 // sequelize가 mysql2를 이용해서 node랑 mysql을 열결해줌

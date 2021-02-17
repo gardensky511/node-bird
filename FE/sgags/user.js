@@ -58,8 +58,8 @@ function* unfollow(action) {
   }
 }
 
-function logInAPI() {
-  return axios.post('/user/login');
+function logInAPI(data) {
+  return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
