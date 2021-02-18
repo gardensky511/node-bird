@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { Form, Input, Button } from 'antd';
 import styled from 'styled-components';
@@ -8,10 +8,16 @@ import useInput from '../hooks/useInput';
 import { loginRequestAction } from '../reducers/user';
 
 const LogInForm = () => {
-  const { logInLoading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { logInLoading, logInError } = useSelector((state) => state.user);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
+
+  useEffect(() => {
+    if (logInError) {
+      alert(logInError);
+    }
+  }, [logInError]);
 
   const onSubmitForm = () => {
     dispatch(loginRequestAction({ email, password }));
