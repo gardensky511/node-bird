@@ -79,7 +79,7 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post('/api/logout');
+  return axios.post('/user/logout');
 }
 
 function* logOut() {
@@ -89,6 +89,7 @@ function* logOut() {
       type: LOG_OUT_SUCCESS,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOG_OUT_FAILURE,
       error: error.response.data,
