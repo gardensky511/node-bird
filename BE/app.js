@@ -48,6 +48,9 @@ app.get('/posts', (req, res) => {
 app.use('/post', postRouter)
 app.use('/user', userRouter)
 
+// 에러처리 미들웨어는 여기 내부적으로 존재. 별도로 쓰고싶으면 에러처리 미들웨어를 아래처럼 적어줌
+app.use((error, req, res, next) => {})
+
 app.listen(3065, () => {
     console.log('서버 실행중!!!!')
 })
