@@ -13,8 +13,33 @@ import {
   FOLLOW_SUCCESS,
   FOLLOW_FAILURE,
   UNFOLLOW_SUCCESS,
-  UNFOLLOW_FAILURE, FOLLOW_REQUEST, UNFOLLOW_REQUEST,
+  UNFOLLOW_FAILURE,
+  FOLLOW_REQUEST,
+  UNFOLLOW_REQUEST,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE,
 } from '../reducers/user';
+
+function loadMyInfoAPI() {
+  return axios.get('/user');
+}
+
+function* loadMyInfo(action) {
+  try {
+    const result = yield call(loadMyInfoAPI, action.data);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: LOAD_MY_INFO_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_MY_INFO_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
 
 function followAPI() {
   return axios.post('/api/follow');
@@ -120,6 +145,10 @@ function* signUp(action) {
 // takeLatest : 동시에 2개가 실행되면 마지막 거만 실행시켜줌.
 // takeLatest는 이미 완료된 건 그냥 놔두고 안완료된 것 중에서 마지막 걸 실행(응답을 취소하는거지 요청을 취소하는게 아님. 그래서 서버쪽에서도 검사해줘야됨)
 // throttle을 쓰면 아예 정해진 시간 동안 요청 수까지 제한할 수 있음
+function* watchLoadMyInfo() {
+  yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
+}
+
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow);
 }
@@ -142,6 +171,7 @@ function* watchSignUp() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadMyInfo),
     fork(watchFollow),
     fork(watchUnfollow),
     fork(watchLogin),
