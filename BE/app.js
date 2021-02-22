@@ -19,7 +19,8 @@ db.sequelize.sync()
 passportConfig()
 
 app.use(cors({
-    origin: '*'
+    origin: 'http://localhost:3000',
+    credentials: true,
 }))
 // FE에서 보낸 데이터를 req.body안에 넣는 역할
 app.use(express.json())
