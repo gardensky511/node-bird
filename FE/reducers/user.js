@@ -58,15 +58,6 @@ export const UNFOLLOW_FAILURE = 'UNFOLLOW_FAILURE';
 export const ADD_POST_TO_ME = 'ADD_POST_TO_ME';
 export const REMOVE_POST_OF_ME = 'REMOVE_POST_OF_ME';
 
-const dummyUser = (data) => ({
-  ...data,
-  nickname: '정민',
-  id: 1,
-  Posts: [{ id: 1 }],
-  Followings: [{ nickname: 'banana' }, { nickname: 'apple' }, { nickname: 'strawberry' }],
-  Followers: [{ nickname: 'banana' }, { nickname: 'apple' }, { nickname: 'strawberry' }],
-});
-
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
