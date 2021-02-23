@@ -26,11 +26,6 @@ const Home = () => {
     // document.documentElement.clientHeight : 화면 보이는 길이
     // document.documentElement.scrollHeight : 총 길이
     const onScroll = () => {
-      console.log(
-        window.scrollY,
-        document.documentElement.clientHeight,
-        document.documentElement.scrollHeight,
-      );
       if (
         window.scrollY
           + document.documentElement.clientHeight
