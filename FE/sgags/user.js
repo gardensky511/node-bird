@@ -22,6 +22,12 @@ import {
   CHANGE_NICKNAME_REQUEST,
   CHANGE_NICKNAME_SUCCESS,
   CHANGE_NICKNAME_FAILURE,
+  LOAD_FOLLOWINGS_REQUEST,
+  LOAD_FOLLOWERS_REQUEST,
+  LOAD_FOLLOWINGS_SUCCESS,
+  LOAD_FOLLOWINGS_FAILURE,
+  LOAD_FOLLOWERS_SUCCESS,
+  LOAD_FOLLOWERS_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE,
 } from '../reducers/user';
 
 function changeNicknameAPI(data) {
@@ -39,6 +45,46 @@ function* changeNickname(action) {
   } catch (error) {
     yield put({
       type: CHANGE_NICKNAME_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadFollowingsAPI(data) {
+  return axios.get('/user/followings', data);
+}
+
+function* loadFollowings(action) {
+  try {
+    const result = yield call(loadFollowingsAPI, action.data);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: LOAD_FOLLOWINGS_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_FOLLOWINGS_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadFollowersAPI(data) {
+  return axios.get('/user/followers', data);
+}
+
+function* loadFollowers(action) {
+  try {
+    const result = yield call(loadFollowersAPI, action.data);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: LOAD_FOLLOWERS_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_FOLLOWERS_FAILURE,
       error: error.response.data,
     });
   }
@@ -64,18 +110,17 @@ function* loadMyInfo(action) {
   }
 }
 
-function followAPI() {
-  return axios.post('/api/follow');
+function followAPI(data) {
+  return axios.patch(`/user/${data}/follow`);
 }
 
 function* follow(action) {
   try {
-    // const result = yield call(followAPI);
-    yield delay(1000);
+    const result = yield call(followAPI, action.data);
     // put은 dispatch랑 같은 느낌
     yield put({
       type: FOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -85,18 +130,37 @@ function* follow(action) {
   }
 }
 
-function unfollowAPI() {
-  return axios.post('/api/unfollow');
+function removeFollowerAPI(data) {
+  return axios.delete(`/user/follower/${data}`);
+}
+
+function* removeFollower(action) {
+  try {
+    const result = yield call(removeFollowerAPI, action.data);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: REMOVE_FOLLOWER_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: REMOVE_FOLLOWER_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
+function unfollowAPI(data) {
+  return axios.delete(`/user/${data}/unfollow`);
 }
 
 function* unfollow(action) {
   try {
-    // const result = yield call(logInAPI);
-    yield delay(1000);
+    const result = yield call(unfollowAPI, action.data);
     // put은 dispatch랑 같은 느낌
     yield put({
       type: UNFOLLOW_SUCCESS,
-      data: action.data,
+      data: result.data,
     });
   } catch (error) {
     yield put({
@@ -167,6 +231,14 @@ function* signUp(action) {
 // takeLatest : 동시에 2개가 실행되면 마지막 거만 실행시켜줌.
 // takeLatest는 이미 완료된 건 그냥 놔두고 안완료된 것 중에서 마지막 걸 실행(응답을 취소하는거지 요청을 취소하는게 아님. 그래서 서버쪽에서도 검사해줘야됨)
 // throttle을 쓰면 아예 정해진 시간 동안 요청 수까지 제한할 수 있음
+function* watchLoadFollowings() {
+  yield takeLatest(LOAD_FOLLOWINGS_REQUEST, loadFollowings);
+}
+
+function* watchLoadFollowers() {
+  yield takeLatest(LOAD_FOLLOWERS_REQUEST, loadFollowers);
+}
+
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
@@ -177,6 +249,10 @@ function* watchLoadMyInfo() {
 
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow);
+}
+
+function* watchRemoveFollower() {
+  yield takeLatest(REMOVE_FOLLOWER_REQUEST, removeFollower);
 }
 
 function* watchUnfollow() {
@@ -197,9 +273,12 @@ function* watchSignUp() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadFollowings),
+    fork(watchLoadFollowers),
     fork(watchChangeNickname),
     fork(watchLoadMyInfo),
     fork(watchFollow),
+    fork(watchRemoveFollower),
     fork(watchUnfollow),
     fork(watchLogin),
     fork(watchLogOut),

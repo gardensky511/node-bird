@@ -48,7 +48,7 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
         // 댓글 생성
         const comment = await Comment.create({
             content: req.body.content,
-            PostId: parseInt(req.params.postId),
+            PostId: parseInt(req.params.postId, 10),
             UserId: req.user.id,
         })
         const fullComment = await Comment.findOne({
@@ -97,7 +97,7 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
                 UserId: req.user.id,
             },
         })
-        res.status(200).json({ PostId: parseInt(req.params.postId) })
+        res.status(200).json({ PostId: parseInt(req.params.postId, 10) })
     } catch (error) {
         console.error(error)
         next(error)
