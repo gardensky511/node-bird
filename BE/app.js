@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const passport = require('passport')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
+const path = require('path')
 
 const postRouter = require('./routes/post')
 const postsRouter = require('./routes/posts')
@@ -26,6 +27,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
 }))
+app.use('/', express.static(path.join(__dirname, 'uploads')))
 // FE에서 보낸 데이터를 req.body안에 넣는 역할
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
