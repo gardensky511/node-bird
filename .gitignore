@@ -8,6 +8,7 @@
 .pnp.js
 .idea
 /BE/.env
+/BE/uploads
 
 # testing
 /coverage

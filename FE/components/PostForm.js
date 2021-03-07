@@ -74,7 +74,7 @@ const PostForm = () => {
             <img
               src={`http://localhost:3065/${imagePath}`}
               style={{ width: '200px' }}
-              alt="Posted Image"
+              alt={imagePath}
             />
             <div>
               <Button onClick={onRemoveImage(index)}>제거</Button>
