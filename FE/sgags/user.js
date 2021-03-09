@@ -27,7 +27,13 @@ import {
   LOAD_FOLLOWINGS_SUCCESS,
   LOAD_FOLLOWINGS_FAILURE,
   LOAD_FOLLOWERS_SUCCESS,
-  LOAD_FOLLOWERS_FAILURE, REMOVE_FOLLOWER_REQUEST, REMOVE_FOLLOWER_SUCCESS, REMOVE_FOLLOWER_FAILURE,
+  LOAD_FOLLOWERS_FAILURE,
+  REMOVE_FOLLOWER_REQUEST,
+  REMOVE_FOLLOWER_SUCCESS,
+  REMOVE_FOLLOWER_FAILURE,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from '../reducers/user';
 
 function changeNicknameAPI(data) {
@@ -94,9 +100,9 @@ function loadMyInfoAPI() {
   return axios.get('/user');
 }
 
-function* loadMyInfo(action) {
+function* loadMyInfo() {
   try {
-    const result = yield call(loadMyInfoAPI, action.data);
+    const result = yield call(loadMyInfoAPI);
     // put은 dispatch랑 같은 느낌
     yield put({
       type: LOAD_MY_INFO_SUCCESS,
@@ -105,6 +111,26 @@ function* loadMyInfo(action) {
   } catch (error) {
     yield put({
       type: LOAD_MY_INFO_FAILURE,
+      error: error.response.data,
+    });
+  }
+}
+
+function loadUserAPI(data) {
+  return axios.get(`/user/${data}`);
+}
+
+function* loadUser(action) {
+  try {
+    const result = yield call(loadUserAPI, action.data);
+    // put은 dispatch랑 같은 느낌
+    yield put({
+      type: LOAD_USER_SUCCESS,
+      data: result.data,
+    });
+  } catch (error) {
+    yield put({
+      type: LOAD_USER_FAILURE,
       error: error.response.data,
     });
   }
@@ -247,6 +273,10 @@ function* watchLoadMyInfo() {
   yield takeLatest(LOAD_MY_INFO_REQUEST, loadMyInfo);
 }
 
+function* watchLoadUser() {
+  yield takeLatest(LOAD_USER_REQUEST, loadUser);
+}
+
 function* watchFollow() {
   yield takeLatest(FOLLOW_REQUEST, follow);
 }
@@ -277,6 +307,7 @@ export default function* userSaga() {
     fork(watchLoadFollowers),
     fork(watchChangeNickname),
     fork(watchLoadMyInfo),
+    fork(watchLoadUser),
     fork(watchFollow),
     fork(watchRemoveFollower),
     fork(watchUnfollow),

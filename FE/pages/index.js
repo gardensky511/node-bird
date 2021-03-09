@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
+import axios from 'axios';
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
@@ -57,7 +58,15 @@ const Home = () => {
   );
 };
 
+// 프론트 서버에서 실행되는 부분
+// 쿠키를 프론트서버 → 백엔드서버로 보내기 때문에 자동으로 실행이 안됨
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
+  // 서버에 쿠키 전달
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
   context.store.dispatch({
     type: LOAD_MY_INFO_REQUEST,
   });
