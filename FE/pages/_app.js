@@ -1,3 +1,4 @@
+// 모든 페이지 공통 요소
 import React from 'react';
 import 'antd/dist/antd.css';
 import Head from 'next/head';
