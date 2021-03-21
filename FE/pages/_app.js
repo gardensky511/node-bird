@@ -10,6 +10,7 @@ const App = ({ Component }) => (
     <Head>
       <meta charSet="utf-8" />
       <title>NodeBird</title>
+      <link rel="icon" href="/favicon.png" />
     </Head>
     <Component />
   </>
