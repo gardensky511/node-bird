@@ -49,6 +49,7 @@ function* changeNickname(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: CHANGE_NICKNAME_FAILURE,
       error: error.response.data,
@@ -69,6 +70,7 @@ function* loadFollowings(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_FOLLOWINGS_FAILURE,
       error: error.response.data,
@@ -89,6 +91,7 @@ function* loadFollowers(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_FOLLOWERS_FAILURE,
       error: error.response.data,
@@ -103,12 +106,12 @@ function loadMyInfoAPI() {
 function* loadMyInfo() {
   try {
     const result = yield call(loadMyInfoAPI);
-    // put은 dispatch랑 같은 느낌
     yield put({
       type: LOAD_MY_INFO_SUCCESS,
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_MY_INFO_FAILURE,
       error: error.response.data,
@@ -129,6 +132,7 @@ function* loadUser(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOAD_USER_FAILURE,
       error: error.response.data,
@@ -149,6 +153,7 @@ function* follow(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: FOLLOW_FAILURE,
       error: error.response.data,
@@ -169,6 +174,7 @@ function* removeFollower(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: REMOVE_FOLLOWER_FAILURE,
       error: error.response.data,
@@ -189,6 +195,7 @@ function* unfollow(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: UNFOLLOW_FAILURE,
       error: error.response.data,
@@ -209,6 +216,7 @@ function* logIn(action) {
       data: result.data,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: LOG_IN_FAILURE,
       error: error.response.data,
@@ -246,6 +254,7 @@ function* signUp(action) {
       type: SIGN_UP_SUCCESS,
     });
   } catch (error) {
+    console.error(error);
     yield put({
       type: SIGN_UP_FAILURE,
       error: error.response.data, // res.status(403).send('이미 사용중인 아이디입니다')
