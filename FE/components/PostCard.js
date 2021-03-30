@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Button, Card, Comment, List, Popover } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import {
   EllipsisOutlined,
   HeartTwoTone,
 } from '@ant-design/icons';
+import Link from 'next/link';
 import { LIKE_POST_REQUEST, REMOVE_POST_REQUEST, RETWEET_REQUEST, UNLIKE_POST_REQUEST } from '../reducers/post';
 
 import PostImages from './PostImages';
@@ -100,7 +101,11 @@ const PostCard = ({ post }) => {
               cover={post.Retweet.Images[0] && <PostImages images={post.Retweet.Images} />}
             >
               <Card.Meta
-                avatar={<Avatar>{post.Retweet.User.nickname[0]}</Avatar>}
+                avatar={(
+                  <Link href={`/user/${post.Retweet.User.id}`}>
+                    <a><Avatar>{post.Retweet.User.nickname[0]}</Avatar></a>
+                  </Link>
+                )}
                 title={post.Retweet.User.nickname}
                 description={<PostCardContent postContents={post.Retweet.content} />}
               />
@@ -108,7 +113,11 @@ const PostCard = ({ post }) => {
           )
           : (
             <Card.Meta
-              avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
+              avatar={(
+                <Link href={`/user/${post.User.id}`}>
+                  <a><Avatar>{post.User.nickname[0]}</Avatar></a>
+                </Link>
+              )}
               title={post.User.nickname}
               description={<PostCardContent postContents={post.content} />}
             />
@@ -125,7 +134,11 @@ const PostCard = ({ post }) => {
               <li>
                 <Comment
                   author={item.User.nickname}
-                  avatar={<Avatar>{item.User.nickname[0]}</Avatar>}
+                  avatar={(
+                    <Link href={`/user/${item.User.id}`}>
+                      <a><Avatar>{item.User.nickname[0]}</Avatar></a>
+                    </Link>
+                  )}
                   content={item.content}
                 />
               </li>

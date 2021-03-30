@@ -4,13 +4,19 @@ import PropTypes from 'prop-types';
 import { Menu, Input, Row, Col } from 'antd';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import Router from 'next/router';
 
 import UserProfile from './UserProfile';
 import LogInForm from './LogInForm';
+import useInput from '../hooks/useInput';
 
 const AppLayout = ({ children }) => {
+  const [searchInput, onChangeSearchInput] = useInput('');
+
   // useSelector는 리덕스 상태값을 조회하기 위한 함수
   const { me } = useSelector((state) => state.user);
+
+  const onSearch = () => Router.push(`/hashtag/${searchInput}`);
 
   return (
     <div>
@@ -26,7 +32,12 @@ const AppLayout = ({ children }) => {
           </Link>
         </Menu.Item>
         <Menu.Item>
-          <SearchInput enterButton />
+          <SearchInput
+            enterButton
+            value={searchInput}
+            onChange={onChangeSearchInput}
+            onSearch={onSearch}
+          />
         </Menu.Item>
         <Menu.Item>
           <Link href="/signUp">
