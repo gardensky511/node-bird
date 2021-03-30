@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { List, Button, Card } from 'antd';
 import { StopOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { REMOVE_FOLLOWER_REQUEST, UNFOLLOW_REQUEST } from '../reducers/user';
 
-const FollowingList = ({ header, data }) => {
+const FollowList = ({ header, data, onClickMore, loading }) => {
   const dispatch = useDispatch();
   const onCancel = (id) => () => {
     if (header === '팔로잉 목록') {
@@ -27,7 +28,7 @@ const FollowingList = ({ header, data }) => {
       header={<div>{header}</div>}
       loadMore={(
         <LoadMoreWrapper>
-          <Button>더 보기</Button>
+          <Button onClick={onClickMore} loading={loading}>더 보기</Button>
         </LoadMoreWrapper>
       )}
       bordered
@@ -48,4 +49,11 @@ const LoadMoreWrapper = styled.div`
   margin: 10px 0;
 `;
 
-export default FollowingList;
+FollowList.propTypes = {
+  header: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  onClickMore: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+};
+
+export default FollowList;
