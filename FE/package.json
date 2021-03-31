@@ -5,15 +5,17 @@
   "author": "jeongmin",
   "dependencies": {
     "@ant-design/icons": "^4.3.0",
+    "@next/bundle-analyzer": "^10.1.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.6.0",
     "antd": "^4.9.4",
     "axios": "^0.21.1",
+    "cross-env": "^7.0.3",
     "faker": "^5.1.0",
     "immer": "^8.0.0",
     "moment": "^2.29.1",
-    "next": "^9.5.5",
+    "next": "^10.1.2",
     "next-redux-saga": "^4.1.2",
     "next-redux-wrapper": "^6.0.2",
     "prop-types": "^15.7.2",
@@ -32,7 +34,7 @@
   },
   "scripts": {
     "start": "next",
-    "build": "next build"
+    "build": "cross-env ANALYZE=true NODE_ENV=production next build"
   },
   "eslintConfig": {
     "extends": [
